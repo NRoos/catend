@@ -1,13 +1,13 @@
 const breeds: Breed[] = [
   {
-    id: 1,
+    id: '1',
     name: 'tabby',
     description: 'very annyoing, also ugly',
     temperament: 'not very high at all',
     origin: 'unknown',
   },
   {
-    id: 2,
+    id: '2',
     name: 'not-tabby',
     description: 'very annyoing, also very pretty',
     temperament: 'haha yes',
@@ -16,7 +16,7 @@ const breeds: Breed[] = [
 ];
 
 type Breed = {
-  id: Number,
+  id: String,
   name: String,
   description: String,
   temperament: String,
@@ -25,7 +25,7 @@ type Breed = {
 
 export default {
   Query: {
-    breedById(_parent : any, { id }: { id: Number }): Breed {
+    breedById(_parent : any, { id }: { id: String }): Breed {
       return breeds.find((breed) => breed.id === id);
     },
     breedByName(_parent : any, { name } : { name: String }): Breed {
