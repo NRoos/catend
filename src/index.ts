@@ -14,16 +14,21 @@ const server = new ApolloServer({ typeDefs: schema, resolvers });
 
 server.applyMiddleware({ app });
 
-app.get('/breeds/name/:name', (req, res) => {
+app.get('/breeds/name/:name', async (req, res) => {
   const { params: { name } } = req;
-  return res.json(resolvers.Query.breedByName(null, { name }));
+  const result = await resolvers.Query.breedByName(null, { name });
+  return res.json(result);
 });
 
-app.get('/breeds/:id', (req, res) => {
+app.get('/breeds/:id', async (req, res) => {
   const { params: { id } } = req;
-  return res.json(resolvers.Query.breedById(null, { id }));
+  const result = await resolvers.Query.breedById(null, { id });
+  return res.json(result);
 });
 
-app.get('/breeds', (_req, res) => res.send(resolvers.Query.allBreeds()));
+app.get('/breeds', async (_req, res) => {
+  const result = await resolvers.Query.allBreeds();
+  res.send(result);
+});
 
 app.listen(port, () => console.log(`🚀 Server ready at http://localhost:${port}${server.graphqlPath}`));

@@ -1,19 +1,12 @@
-const breeds: Breed[] = [
-  {
-    id: '1',
-    name: 'tabby',
-    description: 'very annyoing, also ugly',
-    temperament: 'not very high at all',
-    origin: 'unknown',
-  },
-  {
-    id: '2',
-    name: 'not-tabby',
-    description: 'very annyoing, also very pretty',
-    temperament: 'haha yes',
-    origin: 'tabby',
-  },
-];
+const { MongoClient } = require('mongodb');
+
+const { env: { MONGOURL } } = process;
+let db: any;
+
+const client = new MongoClient(MONGOURL, { useNewUrlParser: true, useUnifiedTopology: true });
+client.connect(async () => {
+  db = await client.db('heroku_3p63c8jl');
+});
 
 type Breed = {
   id: String,
@@ -25,14 +18,27 @@ type Breed = {
 
 export default {
   Query: {
-    breedById(_parent : any, { id }: { id: String }): Breed {
-      return breeds.find((breed) => breed.id === id);
+    breedById: async (_parent: any, { id }: { id: String }) => {
+      const breeds = await db
+        .collection('breed')
+        .find()
+        .toArray()
+        .then((res: Breed[]) => res);
+      return breeds.find((breed: Breed) => breed.id === id);
     },
-    breedByName(_parent : any, { name } : { name: String }): Breed {
-      return breeds.find((breed) => breed.name === name);
+    breedByName: async (_parent: any, { name }: { name: String }) => {
+      const breeds = await db
+        .collection('breed')
+        .find()
+        .toArray()
+        .then((res: Breed[]) => res);
+      const res = await breeds.find((breed: Breed) => breed.name === name);
+      return res;
     },
-    allBreeds(): Breed[] {
-      return breeds;
-    },
+    allBreeds: async () => db
+      .collection('breed')
+      .find()
+      .toArray()
+      .then((res: Breed[]) => res),
   },
 };
