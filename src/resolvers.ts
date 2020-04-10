@@ -24,7 +24,8 @@ export default {
         .find()
         .toArray()
         .then((res: Breed[]) => res);
-      return breeds.find((breed: Breed) => breed.id === id);
+      const res = breeds.find((breed: Breed) => breed.id === id);
+      return typeof res === 'undefined' ? [] : [res];
     },
     breedByName: async (_parent: any, { name }: { name: String }) => {
       const breeds = await db
@@ -33,7 +34,8 @@ export default {
         .toArray()
         .then((res: Breed[]) => res);
       const res = await breeds.find((breed: Breed) => breed.name === name);
-      return res;
+
+      return typeof res === 'undefined' ? [] : [res];
     },
     allBreeds: async () => db
       .collection('breed')
