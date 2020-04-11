@@ -14,6 +14,7 @@ const server = new ApolloServer({ typeDefs: schema, resolvers });
 
 server.applyMiddleware({ app });
 
+// these are here purely because the assignment asked for REST endpoints
 app.get('/breeds/name/:name', async (req, res) => {
   const { params: { name } } = req;
   const result = await resolvers.Query.breedByName(null, { name });
