@@ -1,11 +1,11 @@
 const { MongoClient } = require('mongodb');
 
-const { env: { MONGOURL } } = process;
+const { env: { MONGOURL, MONGONAME } } = process;
 let db: any;
 
 const client = new MongoClient(MONGOURL, { useNewUrlParser: true, useUnifiedTopology: true });
 client.connect(async () => {
-  db = await client.db('heroku_3p63c8jl');
+  db = await client.db(MONGONAME);
 });
 
 type Breed = {
