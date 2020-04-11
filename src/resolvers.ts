@@ -28,7 +28,7 @@ export default {
       return typeof breeds === 'undefined' ? [] : breeds;
     },
     breedByName: async (_parent: any, { name }: { name: string }) => {
-      const regex = new RegExp(name);
+      const regex = new RegExp(name, 'i');
       const breeds = await db
         .collection('breed')
         .find({ name: regex })
