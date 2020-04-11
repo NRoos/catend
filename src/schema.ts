@@ -9,8 +9,8 @@ export default gql`
     origin: String
   },
   type Query {
-    breedById(id: String!): Breed,
-    breedByName(name: String!): Breed
+    breedById(id: String!): [Breed],
+    breedByName(name: String!): [Breed]
     allBreeds: [Breed]
   }
 `;

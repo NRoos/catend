@@ -21,21 +21,20 @@ export default {
     breedById: async (_parent: any, { id }: { id: String }) => {
       const breeds = await db
         .collection('breed')
-        .find()
+        .find({ id })
         .toArray()
         .then((res: Breed[]) => res);
-      const res = breeds.find((breed: Breed) => breed.id === id);
-      return typeof res === 'undefined' ? [] : [res];
+
+      return typeof breeds === 'undefined' ? [] : breeds;
     },
     breedByName: async (_parent: any, { name }: { name: String }) => {
       const breeds = await db
         .collection('breed')
-        .find()
+        .find({ name })
         .toArray()
         .then((res: Breed[]) => res);
-      const res = await breeds.find((breed: Breed) => breed.name === name);
 
-      return typeof res === 'undefined' ? [] : [res];
+      return typeof breeds === 'undefined' ? [] : breeds;
     },
     allBreeds: async () => db
       .collection('breed')
